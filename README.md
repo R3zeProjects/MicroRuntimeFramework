@@ -1,3 +1,5 @@
+# MicroRuntimeFramework
+
 `MicroRuntimeFramework` — компактный runtime-слой C++23 для явного выполнения задач, ограниченной очереди, отмены и детерминированного завершения.
 
 Модуль не имеет сторонних runtime-зависимостей, не создаёт detached-потоки и предоставляет header-only цель `vosp::runtime::Executor`.
