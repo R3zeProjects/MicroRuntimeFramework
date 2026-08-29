@@ -1,8 +1,6 @@
-# MicroRuntimeFramework
+`MicroRuntimeFramework` — компактный runtime-слой C++23 для явного выполнения задач, ограниченной очереди, отмены и детерминированного завершения.
 
-`MicroRuntimeFramework` is a small C++23 runtime layer for explicit task execution, bounded queues, cancellation and deterministic shutdown.
-
-It has no third-party runtime dependencies, creates no detached threads and exposes `vosp::runtime::Executor` through a header-only target.
+Модуль не имеет сторонних runtime-зависимостей, не создаёт detached-потоки и предоставляет header-only цель `vosp::runtime::Executor`.
 
 ```cpp
 #include <vosp/runtime.hpp>
@@ -13,9 +11,9 @@ const int answer = result.get();
 runtime.shutdown(vosp::runtime::ShutdownMode::drain);
 ```
 
-The queue applies backpressure by waiting for capacity. `cancel_pending` discards only tasks that have not started; active tasks must implement their own `CancellationToken` policy.
+При заполненной очереди submission ожидает свободное место. `cancel_pending` удаляет только ещё не начатые задачи; активные задачи должны самостоятельно учитывать `CancellationToken`.
 
-## Build
+## Сборка
 
 ```text
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
@@ -23,4 +21,4 @@ cmake --build build --parallel
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-The public target is `vosp::runtime`. GUI and backend facilities are intentionally outside this module.
+Публичная цель — `vosp::runtime`. GUI и backend намеренно находятся вне этого модуля.

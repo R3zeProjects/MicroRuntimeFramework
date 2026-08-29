@@ -1,10 +1,13 @@
-# Architecture
+# Архитектура
 
-The runtime owns its worker threads and its bounded FIFO queue. Submission
-waits for capacity, so overload is visible to the caller instead of silently
-creating unbounded memory pressure. Shutdown closes admission first, then
-workers finish or discard pending work according to `ShutdownMode` and return.
+Runtime владеет worker-потоками и ограниченной FIFO-очередью. При отправке
+задачи на заполненную очередь вызывающий код ожидает освобождения места, а
+избыточная нагрузка не превращается в неограниченное потребление памяти.
 
-The module is intentionally independent of the other vosp repositories. It
-uses only C++23 and standard-library synchronization primitives. A future
-integration layer may compose this executor with workflow and service modules.
+При завершении сначала закрывается приём новых задач, затем workers завершают
+или удаляют ожидающие задачи согласно `ShutdownMode` и корректно возвращаются.
+Потоки не detach-ятся.
+
+Модуль независим от других репозиториев vosp и использует только C++23 и
+стандартные средства синхронизации. Позже executor может быть объединён с
+workflow- и service-модулями.
